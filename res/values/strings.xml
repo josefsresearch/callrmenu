@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Caller Menu</string>
+    <string name="action_change_language">Change Language</string>
+    <string name="hello_world">This app will only work with an internet connection, make sure to connect before making calls.</string>
+	<string name="menu_caller_call">Call</string>
+    
+</resources>
