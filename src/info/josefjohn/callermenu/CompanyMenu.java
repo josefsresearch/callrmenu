@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) February 2014
+ * Project for Tal Lavian, tlavian@gmail.com
+ * @author Josef John, josefjohn88@gmail.com
+ */
+
 package info.josefjohn.callermenu;
 
 import java.util.ArrayList;
@@ -12,7 +18,10 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-
+/*
+ * The object that represents a company menu. When a menu is retrieved, the menu 
+ * is converted into this object.
+ */
 public class CompanyMenu {
 	String companyName;
 	String phone;
@@ -24,9 +33,13 @@ public class CompanyMenu {
 	int type;
 	String[] standardStart;
 	String[] standardMore;
-	
+	boolean english = true;
 
 	CompanyMenu(JSONObject jsonObj) {
+		String language = MainActivity.language;
+		if (!language.equals("English")) {
+			english = false;
+		}
 		menu = new HashMap<String, String>();
 		reverseMenu = new HashMap<String, String>();
 		responses = new ArrayList<String>();
@@ -43,7 +56,7 @@ public class CompanyMenu {
 			while (jsonKeys.hasNext()) {
 				key = jsonKeys.next();
 				if (key.endsWith("?")) {
-					responses.add(key);//not sure if we need this
+					responses.add(key);
 				}
 				menu.put(key, jsonObj.getString(key));
 				if (key.length() < 2 && !key.contains("~")) {
@@ -67,7 +80,7 @@ public class CompanyMenu {
 		return type;
 	}
 
-	List<String> getResponses() {//not sure if we need this
+	List<String> getResponses() {
 		return responses;
 	}
 
@@ -97,7 +110,7 @@ public class CompanyMenu {
 			String gap = "";
 			for (int i=0;i<cur.length();i++) {
 				if (i > 0) {
-					gap += "   ";
+					gap += "- ";
 				}
 			}
 			list.add(gap + menu.get(cur));
@@ -116,38 +129,33 @@ public class CompanyMenu {
 	}
 
 	public String getFinalSelection(String selection) {
-		//or check on caller side?
-		if (menu.containsKey(selection+"_")) {
-			Log.e("weird", "website");
-			return "_";
+		if (menu.containsKey(selection+"|")) {
+			return menu.get(selection+"|");
 		}
 		String ret = menu.get("~");
 		for (int i=1;i<=selection.length();i++) {
 			String cur = selection.substring(0, i);
 			//Log.i("cur", cur);
-			ret += selection.substring(i-1, i);
+			if (!((menu.get(cur).equals("Make Call")) || (menu.get(cur).equals("Llamar")))) {
+			ret += selection.substring(i-1, i)+",";
+			}
 			//Log.i("ret", ret);
 			if (menu.containsKey(cur+"~")) {
 				ret += menu.get(cur+"~");
 			}
 			//Log.i("ret", ret);
 			if (menu.containsKey(cur+"?")) {
-				//Log.i("has", cur+"?");
-				//Log.i("has also", menu.get(cur+"?"));
 				String input = CallerActivity.getInput(menu.get(cur+"?"));
 				if (input != null) {
-					//Log.i("input", input);
 					ret += ","+input+",,";
 				} else {
-					//Log.i("ret", ret);
-					return ret;
+					return MainActivity.phoneNumber+ret;
 				}
 			}
 			if (getNumChildren(cur) == 0) { 
-				return ret;
+				return MainActivity.phoneNumber+ret;
 			}
 		}
-		//Log.i("RET is ", ret);
 		return ret;
 	}
 
@@ -210,7 +218,11 @@ public class CompanyMenu {
 		HashSet<String> standardSet = new HashSet<String>();
 		List<String> moreOptions = new ArrayList<String>();
 		if (type == 1) {
+			if (!english) {
+				standard = Constants.AIRLINES_SPANISH;
+			} else {
 			standard = Constants.AIRLINES;
+			}
 		} else {
 			return null;
 		}
@@ -221,7 +233,12 @@ public class CompanyMenu {
 			}
 			
 		}
-		standardMenu.add("More");
+		if (!english) {
+			standardMenu.add("Mas");
+		} else {
+			standardMenu.add("More");
+		}
+		
 		standard = new String[standardMenu.size()];
 		int i=0;
 		for (String opt:standardMenu) {
@@ -259,7 +276,7 @@ public class CompanyMenu {
 		String first = cur.get(0);
 		String selection = reverseMenu.get(first);
 		int j = 1;
-		if (first == "More") {
+		if (first.equals("More") || first.equals("Mas")) {
 			selection = "";
 			if (cur.size() > 1) {
 				selection = reverseMenu.get(cur.get(1));

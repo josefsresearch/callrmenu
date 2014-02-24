@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) February 2014
+ * Project for Tal Lavian, tlavian@gmail.com
+ * @author Josef John, josefjohn88@gmail.com
+ */
+
 package info.josefjohn.callermenu;
 
 import android.app.Activity;
@@ -12,6 +18,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+/*
+ * MainActivity starts when the app is launched.
+ * User can select language in this activity.
+ */
 public class MainActivity extends Activity {
 	private Button done;
 	protected static boolean calling = false;
@@ -42,26 +52,20 @@ public class MainActivity extends Activity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.action_change_language:
 			String msg = "Menu language changed to ";
 			Editor e = sp.edit();
 			if (language.equals("English")) {
 				e.putString("LANGUAGE", "Spanish").commit();
-				Log.i("1", sp.getString("LANGUAGE", ""));
-				Log.i("language", "spanish");
 			} else {
 				e.putString("LANGUAGE", "English").commit();
-				Log.i("2", sp.getString("LANGUAGE", ""));
-				Log.i("language", "english");
 			}
 			language = sp.getString("LANGUAGE", null);
 			msg += language;

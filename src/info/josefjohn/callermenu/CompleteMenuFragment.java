@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) February 2014
+ * Project for Tal Lavian, tlavian@gmail.com
+ * @author Josef John, josefjohn88@gmail.com
+ */
+
 package info.josefjohn.callermenu;
 
 import java.util.ArrayList;
@@ -35,7 +41,6 @@ public class CompleteMenuFragment extends Fragment {
 		for (int i = 0; i < values.length; ++i) {
 			list.add(values[i]);
 		}
-		//final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);
 		final ListAdapter adapter = new ListAdapter(getActivity().getApplicationContext(), R.layout.list_row, R.id.listText, list);
 
 		listView.setAdapter(adapter);
@@ -47,21 +52,9 @@ public class CompleteMenuFragment extends Fragment {
 					String selection = MainActivity.cm.getCompleteMapping(index);
 					Log.i("index="+index, "selection="+selection);
 					Log.i("selection is", selection);
-					String isLink = MainActivity.cm.isLink(selection);
-					if (isLink != null) {
-						callListener.onCallSelected("LINK", isLink);
-					}
-					String hasQuestion = MainActivity.cm.hasQuestion(selection);
-					if (hasQuestion != null) {
-						CallerActivity.selection = selection;
-						callListener.onCallSelected("POPUP_QUESTION", MainActivity.cm.get(hasQuestion));
-					} else {
-						String finalSelection = MainActivity.cm.getFinalSelection(selection);
-						callListener.onCallSelected("CALL", finalSelection);
-					}
+					callListener.onCallSelected("CHECK", selection);
 			}
 		});
-
 		return rootView;
 	}
 

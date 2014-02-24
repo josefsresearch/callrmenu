@@ -1,6 +1,10 @@
-package info.josefjohn.callermenu;
+/*
+ * Copyright (C) February 2014
+ * Project for Tal Lavian, tlavian@gmail.com
+ * @author Josef John, josefjohn88@gmail.com
+ */
 
-import android.util.Log;
+package info.josefjohn.callermenu;
 
 public class HelperMethods {
 	public static boolean hasNumber(String phoneNumber) {
@@ -15,7 +19,7 @@ public class HelperMethods {
 	public static int getImage(String option) {
 		int i = 0;
 		for (String hasImg:Constants.optionsWithImages) {
-			if (option.equals(hasImg)) {
+			if (option.equals(hasImg) || option.contains(hasImg)) {
 				return Constants.images[i];
 			}
 			i++;

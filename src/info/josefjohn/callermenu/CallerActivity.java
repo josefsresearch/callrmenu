@@ -1,5 +1,10 @@
-package info.josefjohn.callermenu;
+/*
+ * Copyright (C) February 2014
+ * Project for Tal Lavian, tlavian@gmail.com
+ * @author Josef John, josefjohn88@gmail.com
+ */
 
+package info.josefjohn.callermenu;
 
 import java.util.HashMap;
 import java.util.List;
@@ -84,7 +89,6 @@ OnCallSelectedListenerThree {
 
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
 		viewPager.setCurrentItem(tab.getPosition());
 	}
 
@@ -118,7 +122,6 @@ OnCallSelectedListenerThree {
 				Intent callIntent = new Intent(Intent.ACTION_CALL);
 				callIntent.setData(Uri.parse("tel:"+number));
 				startActivity(callIntent);
-				finish();
 			} else {
 				showDialog("POPUP_CONFIRM", number);
 			}
@@ -156,7 +159,6 @@ OnCallSelectedListenerThree {
 					MainActivity.cm = null;
 					MainActivity.phoneNumber = null;
 					isPhoneCalling = false;
-					/////should i finish?
 				}
 			}
 		}
@@ -164,14 +166,12 @@ OnCallSelectedListenerThree {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_caller, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.menu_call:
 			forceCall();
@@ -238,7 +238,7 @@ OnCallSelectedListenerThree {
 		} else {
 			callConfirmation = true;
 			dialog.getDialog().cancel();
-			onCallSelected("CALL", MainActivity.phoneNumber+MainActivity.cm.getFinalSelection(args.getString("title")));
+			onCallSelected("CALL", MainActivity.cm.getFinalSelection(args.getString("title")));
 		}
 	}
 
@@ -285,12 +285,7 @@ OnCallSelectedListenerThree {
 			String type = getArguments().getString("type");
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			// Get the layout inflater
 			LayoutInflater inflater = getActivity().getLayoutInflater();
-
-
-			// Inflate and set the layout for the dialog
-			// Pass null as the parent view because its going in the dialog layout
 			if (type == "POPUP_QUESTION") {
 				builder.setView(inflater.inflate(R.layout.dialog_input, null));
 				builder.setTitle("Please input");

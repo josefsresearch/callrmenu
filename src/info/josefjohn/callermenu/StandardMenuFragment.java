@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) February 2014
+ * Project for Tal Lavian, tlavian@gmail.com
+ * @author Josef John, josefjohn88@gmail.com
+ */
+
 package info.josefjohn.callermenu;
 
 import java.util.ArrayList;
@@ -22,7 +28,6 @@ public class StandardMenuFragment extends Fragment {
 	String[] standardMenu;
 
 	@Override
-	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
@@ -42,7 +47,6 @@ public class StandardMenuFragment extends Fragment {
 		for (int i = 0; i < values.length; ++i) {
 			list.add(values[i]);
 		}
-		//final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);
 		final ListAdapter adapter = new ListAdapter(getActivity().getApplicationContext(), R.layout.list_row, R.id.listText, list);
 		listView.setAdapter(adapter);
 
@@ -50,7 +54,7 @@ public class StandardMenuFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int index,
 					long arg3) {
-				if (list.get(index) == "Back") {
+				if (list.get(index).equals("Back")) {
 					Log.i("curselectionback", curSelection.get(0));
 					int a = curSelection.size()-1;
 					Log.i("CurSelectionSize", String.valueOf(a));
@@ -60,7 +64,9 @@ public class StandardMenuFragment extends Fragment {
 					if (curSelection.size() == 0) {
 						curSelection.add(standardMenu[index]);
 						Log.i("curselection", curSelection.get(0));
-					} else if (curSelection.size() == 1 && curSelection.get(0) == "More") {
+					} else if (curSelection.size() == 1 && curSelection.get(0).equals("More")) {
+						curSelection.add(list.get(index));
+					} else if (curSelection.size() == 1 && curSelection.get(0).equals("Mas")) {
 						curSelection.add(list.get(index));
 					} else {
 						curSelection.add(Constants.allChars[index]);
@@ -77,9 +83,6 @@ public class StandardMenuFragment extends Fragment {
 						for (int i = 0; i < values.length; ++i) {
 							list.add(values[i]);
 						}
-//						if (cur.size() > 0) {
-//							list.add("Back");
-//						}
 						adapter.notifyDataSetChanged();
 						return;
 					}
